@@ -1,0 +1,10 @@
+Make a table:
+CREATE TABLE users (username TEXT PRIMARY KEY NOT NULL, firstname TEXT, lastname TEXT);
+//db.execSQL("CREATE TABLE " + TABLE_NAME + " (username TEXT PRIMARY KEY NOT NULL, firstname TEXT, lastname TEXT);");
+
+Insert into Table:
+INSERT INTO   users   VALUES('Zmoore', 'Zack', 'Moore');
+//db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES('Zmoore','Zackary','Moore');");
+
+Get records from table:
+SELECT * FROM users;

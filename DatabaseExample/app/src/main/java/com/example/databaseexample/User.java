@@ -11,7 +11,7 @@ public class User
 
     }
 
-    public User(String u, String l, String f)
+    public User(String u, String f, String l)
     {
         fname = f;
         lname = l;
