@@ -137,4 +137,66 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
         return listUsers;
     }
+
+    public void addNewUser(User u)
+    {
+        //Get an instance of a writable database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //This line is a little complicated. The sql statement should look as follows:
+        //INSERT INTO users VALUES('zmoore','Zack','Moore'));
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES ('" + u.getUname() + "','" + u.getFname() + "','" + u.getLname() + "');");
+
+        db.close();
+
+    }
+
+    @SuppressLint("Range")
+    public ArrayList<String> getAllUsernames()
+    {
+        ArrayList<String> usernames = new ArrayList<String>();
+
+
+        //Query to get all usernames from the table
+        String selectUserNames = "SELECT username FROM " + TABLE_NAME + ";";
+
+        //Get instance of a readable database and store it in db
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //Execute query
+        //Cursor will be used to cycle through the results
+        Cursor cursor = db.rawQuery(selectUserNames, null);
+
+        String username;
+
+        //If there was something returned, move the cursor to the beginning of the list
+        if(cursor.moveToFirst())
+        {
+            do
+            {
+                username = cursor.getString(cursor.getColumnIndex("username"));
+
+                usernames.add(username);
+            }
+            while (cursor.moveToNext());
+        }
+        //CLOSE THE DATABASE
+        db.close();
+        return usernames;
+    }
+
+    //Used to delete a specific user
+    //This will be passed a username because it is our primary key
+    //You MUST delete off the primary key
+    public void deleteUser(String uName)
+    {
+        //Get an instance of our database (writable)
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //Create our delete command
+        //Looks like: DELETE FROM users WHERE username = 'zmoore';
+        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE username = '" + uName + "';");
+        //CLOSE THE DATABASE
+        db.close();
+    }
 }
