@@ -100,7 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
         //Query to get all rows and attributes from our table
         //select * means get all attributes
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + ";";
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " ORDER BY username;";
 
         //Get an instance of a readable database and store it in db
         SQLiteDatabase db = this.getReadableDatabase();
@@ -158,7 +158,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
 
         //Query to get all usernames from the table
-        String selectUserNames = "SELECT username FROM " + TABLE_NAME + ";";
+        String selectUserNames = "SELECT username FROM " + TABLE_NAME + " ORDER BY username;";
 
         //Get instance of a readable database and store it in db
         SQLiteDatabase db = this.getReadableDatabase();
@@ -197,6 +197,20 @@ public class DatabaseHelper extends SQLiteOpenHelper
         //Looks like: DELETE FROM users WHERE username = 'zmoore';
         db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE username = '" + uName + "';");
         //CLOSE THE DATABASE
+        db.close();
+    }
+
+    public void updateUser(User u)
+    {
+        //Get writeable database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //Create our update command
+        //Needs to look like this:
+        //UPDATE users SET firstname = 'Zack' , lastname = 'Moore' WHERE username = 'zmoore';
+        String updateCommand = "UPDATE " + TABLE_NAME + " SET firstname = '" + u.getFname() + "' , lastname = '" + u.getLname() + "' WHERE username = '" + u.getUname() + "';";
+
+        db.execSQL(updateCommand);
         db.close();
     }
 }
